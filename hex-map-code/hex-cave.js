@@ -13,16 +13,23 @@ const opts = {
     island_size: .62,
 
     // Initial Colors
-    deep_rock: [190, 190, 190],
-    open_rock: [170, 170, 170],
-    outline_color: '#918585',
+    dark_rock: [140, 140, 140],
+    dark_rock_1: [140, 140, 140],
+    dark_rock_2: [140, 140, 140],
+    dark_rock_3: [140, 140, 140],
+    light_rock: [190, 190, 190],
+    light_rock_1: [190, 190, 190],
+    light_rock_2: [190, 190, 190],
+    outline_color: [102, 92, 92],
 
     // Initial Height Ranges
-    deep_rocks_height: .13,
-    sand_height: .26,
-    snow_height: 0.72,
-    rocks_height:.6,
-    open_rocks_height: .27,
+    dark_rock_3_height: 72, //= snow
+    dark_rock_1_height: .6, //= rocks
+    light_rock_1_height: .49, //= forest
+    light_rock_2_height: .36, //= grass
+    dark_rock_2_height: .26, //= sand
+    light_rock_height: .23, //no touche is base
+    dark_rock_height: .13, //no touche is base
 
     // Chances
 
@@ -44,14 +51,22 @@ window.onload = function() {
     general.add(opts, 'outline').onChange(setup);
 
     var colors = gui.addFolder('Biome Colors');
-    colors.addColor(opts, 'deep_rock').onChange(setup);
-    colors.addColor(opts, 'open_rock').onchange(setup);
+    colors.addColor(opts, 'dark_rock').onChange(setup);
+    colors.addColor(opts, 'dark_rock_1').onChange(setup);
+    colors.addColor(opts, 'dark_rock_2').onChange(setup);
+    colors.addColor(opts, 'dark_rock_3').onChange(setup);
+    colors.addColor(opts, 'light_rock').onChange(setup);
+    colors.addColor(opts, 'light_rock_1').onChange(setup);
+    colors.addColor(opts, 'light_rock_2').onChange(setup);
 
     var heights = gui.addFolder('Height Ranges');
-    heights.add(opts, 'deep_rock', 0, 1).onChange(setup);
-    heights.add(opts, 'open_rock', 0, 1).onchange(setup);
-
-
+    heights.add(opts, 'dark_rock_height', 0, 1).onChange(setup);
+    heights.add(opts, 'dark_rock_1_height', 0, 1).onChange(setup);
+    heights.add(opts, 'dark_rock_2_height', 0, 1).onChange(setup);
+    heights.add(opts, 'dark_rock_3_height', 0, 1).onChange(setup);
+    heights.add(opts, 'light_rock_height', 0, 1).onChange(setup);
+    heights.add(opts, 'light_rock_1_height', 0, 1).onChange(setup);
+    heights.add(opts, 'light_rock_2_height', 0, 1).onChange(setup);
 
     gui.add(opts, "randomize").name("Randomize");
     gui.add(opts, "save").name("Save");
@@ -132,11 +147,22 @@ function setup()
 function draw_hexagon(x, y, side, n, h) {
     let v = int(n * 255.0)
     let c;
-    if (v < opts.deep_rocks_height * 255) {
-        c = opts.deep_rock;
+    if (v < opts.dark_rock_height * 255) {
+        c = opts.dark_rock;
+    } else if (v < opts.light_rock_height * 255) {
+        c = opts.light_rock;
+    } else if (v < opts.dark_rock_2_height * 255) {
+        c = opts.dark_rock_2;
+    } else if (v < opts.light_rock_2_height * 255) {
+        c = opts.light_rock_2;
+    } else if (v < opts.light_rock_1_height * 255) {
+        c = opts.light_rock_1;
+    } else if (v < opts.dark_rock_1 * 255) {
+        c = opts.dark_rock_1;
     } else {
-        c = opts.open_rock;
+        c = opts.dark_rock_3;
     }
+
     fill(c)
 
     strokeWeight(opts.outline_width);
