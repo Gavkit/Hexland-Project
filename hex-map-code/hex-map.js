@@ -100,6 +100,7 @@ function randomize() {
 }
 
 function save() {
+  let i = 0;
   randomize();
   save('photo.png');
 }
@@ -107,7 +108,8 @@ function save() {
 function nftCreate() {
   for (let i = 0; i < opts.saveAmount; i++) {
      randomize();
-     save('photo.png'); 
+     save(i + '.png');
+     i = i + 1;
   }
 }
 
