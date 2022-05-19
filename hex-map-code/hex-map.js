@@ -100,16 +100,15 @@ function randomize() {
 }
 
 function save() {
+  randomize();
   save('photo.png');
 }
 
 function nftCreate() {
   for (let i = 0; i < opts.saveAmount; i++) {
-    
+     randomize();
+     save('photo.png'); 
   }
-  randomize();
-  save('photo.png');
-
 }
 
 function setup()
