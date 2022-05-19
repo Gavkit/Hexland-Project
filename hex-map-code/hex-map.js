@@ -36,9 +36,15 @@ const opts = {
   // Chances
   cave_chance: .01 ,
   oil_chance: 3,
+
+  //Nft Functions
+  saveAmount: 100,
+  nftCreate: () => nftCreate(),
+  
   // Additional Functions
   randomize: () => randomize(),
   save: () => save()
+  
 };
 
 window.onload = function() {
@@ -80,6 +86,10 @@ window.onload = function() {
   random.add(opts, 'cave_chance', 0, 100).onChange(setup);
   random.add(opts, 'oil_chance', 0, 100).onChange(setup);
 
+  var nftTools = gui.addFolder('NftTools');
+  nftTools.add(opts, 'saveAmount', 0, 1000).onChange(setup);
+  nftTools.add(opts, 'nftCreate').onChange(setup);
+
   gui.add(opts, "randomize").name("Randomize");
   gui.add(opts, "save").name("Save");
 };
@@ -91,6 +101,15 @@ function randomize() {
 
 function save() {
   save('photo.png');
+}
+
+function nftCreate() {
+  for (let i = 0; i < opts.saveAmount; i++) {
+    
+  }
+  randomize();
+  save('photo.png');
+
 }
 
 function setup()
