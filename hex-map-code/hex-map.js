@@ -1,5 +1,16 @@
 p5.disableFriendlyErrors = true;
 
+  const amount = {
+    darkWater: 0,
+    lightWater: 0,
+    sand: 0,
+    grass: 0,
+    forest: 0,
+    rock: 0,
+    snow: 0,
+    oil: 0,
+    cave: 0
+  };
 
 const opts = {
   // Generation Details
@@ -94,9 +105,22 @@ window.onload = function() {
   gui.add(opts, "save").name("Save");
 };
 
+function resetAmount() {
+  amount.darkWater = 0;
+  amount.lightWater = 0;
+  amount.sand = 0;
+  amount.grass = 0;
+  amount.forest = 0;
+  amount.rock = 0;
+  amount.snow = 0;
+  amount.oil = 0;
+  amount.cave = 0;
+}
+
 function randomize() {
   noiseSeed()
   setup()
+  resetAmount()
 }
 
 function save() {
@@ -106,7 +130,7 @@ function save() {
 }
 
 function nftCreate() {
-  for (let i = 0; i <          opts.saveAmount; i++) {
+  for (let i = 0; i < opts.saveAmount; i++) {
      randomize();
      save(i + '.png');
   }
@@ -117,6 +141,7 @@ function setup()
   var canvasDiv = document.getElementById('sketchdiv');
   var width = canvasDiv.offsetWidth;
   var height = opts.height;
+
 
   pixelDensity(2);
   
@@ -172,7 +197,18 @@ function setup()
       draw_hexagon(t[0], t[1], hexagon_size, t[2], 0)
     }
   }
-  
+  var totalTiles = + amount.cave + amount.oil + amount.snow + amount.rock + amount.forest + amount.grass + amount.sand + amount.lightWater + amount.darkWater;
+  console.log('\n'.repeat('25'));
+  console.log('Dark Water Tiles: ' + amount.darkWater);
+  console.log('Light Water Tiles: ' + amount.lightWater);
+  console.log('Sand Tiles: ' + amount.sand);
+  console.log('Grass Tiles: ' + amount.grass);
+  console.log('Forest Tiles: ' + amount.forest);
+  console.log('Rocks Tiles: ' + amount.rock);
+  console.log('Snow Tiles: ' + amount.snow);
+  console.log('Oil Tiles: ' + amount.oil);
+  console.log('Cave Tiles: ' + amount.cave);
+  console.log('Total Tiles: ' + totalTiles);
 }
 
 function draw_hexagon(x, y, side, n, h) {
@@ -180,25 +216,34 @@ function draw_hexagon(x, y, side, n, h) {
     let c;
     if (v < opts.dark_water_height * 255) {
       c = opts.dark_water;
+      amount.darkWater++;
     } else if(v < opts.light_water_height * 255) {
       c = opts.light_water;
+      amount.lightWater++;
     } else if (v < opts.sand_height * 255) {
       c = opts.sand;
+      amount.sand++;
     } else if (v < opts.grass_height * 255) {
       c = opts.grass
+      amount.grass++;
     } else if (v < opts.forest_height * 255) {
       c = opts.forest;
+      amount.forest++;
     } else if (v < opts.rocks_height * 255) {
       if(Math.random() * 100 <= opts.cave_chance) {
         c = opts.cave;
+        amount.cave++;
       } else {
         c = opts.rocks;
+        amount.rock++;
       }
     } else {
       if (Math.random() * 100 <= opts.oil_chance) {
         c = opts.oil;
+        amount.oil++;
       } else {
         c = opts.snow;
+        amount.snow++;
       }
     }
   
@@ -219,5 +264,4 @@ function draw_hexagon(x, y, side, n, h) {
     vertex(x + side * sin(7 * PI/6), y + side * cos(7 * PI/6) - h)
     vertex(x + side * sin(5 * PI/6), y + side * cos(5 * PI/6) - h)
     endShape(CLOSE)
-  
 }
