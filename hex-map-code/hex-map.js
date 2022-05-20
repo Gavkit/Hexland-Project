@@ -104,6 +104,7 @@ window.onload = function() {
   gui.add(opts, "randomize").name("Randomize");
   gui.add(opts, "save").name("Save");
 };
+  let json = {};
 
 function resetAmount() {
   amount.darkWater = 0;
@@ -116,23 +117,36 @@ function resetAmount() {
   amount.oil = 0;
   amount.cave = 0;
 }
+function setupMeta() { 
+  json.name = 'Lion'; 
+  json.id = 0;
+  json.species = 'Panthera leo';
+}
 
 function randomize() {
-  noiseSeed()
-  setup()
-  resetAmount()
+  noiseSeed();
+  setup();
+  resetAmount();
+  setupMeta();
 }
 
 function save() {
   let i = 0;
   randomize();
+  randomize();
+  randomize();
   save('photo.png');
 }
 
 function nftCreate() {
+  randomize();
+  randomize();
+  randomize();
   for (let i = 0; i < opts.saveAmount; i++) {
      randomize();
      save(i + '.png');
+     let name = (i + '.json');
+     saveJSON(json, name);
   }
 }
 
@@ -199,16 +213,18 @@ function setup()
   }
   var totalTiles = + amount.cave + amount.oil + amount.snow + amount.rock + amount.forest + amount.grass + amount.sand + amount.lightWater + amount.darkWater;
   console.log('\n'.repeat('25'));
-  console.log('Dark Water Tiles: ' + amount.darkWater);
-  console.log('Light Water Tiles: ' + amount.lightWater);
-  console.log('Sand Tiles: ' + amount.sand);
-  console.log('Grass Tiles: ' + amount.grass);
-  console.log('Forest Tiles: ' + amount.forest);
-  console.log('Rocks Tiles: ' + amount.rock);
-  console.log('Snow Tiles: ' + amount.snow);
-  console.log('Oil Tiles: ' + amount.oil);
-  console.log('Cave Tiles: ' + amount.cave);
+  console.log('Dark Water Tiles: ' + ((amount.darkWater / totalTiles) * 100) + '%');
+  console.log('Light Water Tiles: ' + ((amount.lightWater / totalTiles) * 100) + '%');
+  console.log('Sand Tiles: ' + ((amount.sand / totalTiles) * 100) + ' %');
+  console.log('Grass Tiles: ' + ((amount.grass / totalTiles) * 100) + ' %');
+  console.log('Forest Tiles: ' + ((amount.forest / totalTiles) * 100) + ' %');
+  console.log('Rocks Tiles: ' + ((amount.rock / totalTiles) * 100) + ' %');
+  console.log('Snow Tiles: ' + ((amount.snow / totalTiles) * 100) + ' %');
+  console.log('Oil Tiles: ' + ((amount.oil / totalTiles) * 100) + ' %');
+  console.log('Cave Tiles: ' + ((amount.cave / totalTiles) * 100) + ' %');
   console.log('Total Tiles: ' + totalTiles);
+
+  setupMeta();
 }
 
 function draw_hexagon(x, y, side, n, h) {
