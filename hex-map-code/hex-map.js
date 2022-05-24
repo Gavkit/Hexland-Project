@@ -1,20 +1,21 @@
 p5.disableFriendlyErrors = true;
 
-  const amount = {
-    darkWater: 0,
-    lightWater: 0,
-    sand: 0,
-    grass: 0,
-    forest: 0,
-    rock: 0,
-    snow: 0,
-    oil: 0,
-    cave: 0
-  };
+const amount = {
+  darkWater: 0,
+  lightWater: 0,
+  sand: 0,
+  grass: 0,
+  forest: 0,
+  rock: 0,
+  snow: 0,
+  oil: 0,
+  cave: 0
+};
 
 const opts = {
   // Generation Details
-  height: 919,
+  height: 861,
+  width: 861,
   tile_size: 10,
   outline: true,
   outline_width: 1,
@@ -62,6 +63,7 @@ window.onload = function() {
   var gui = new dat.GUI({width:300, hideable: true});
   var general = gui.addFolder('Generation Details')
   general.add(opts, 'height', 500, 2000).onChange(setup);
+  general.add(opts, 'width', 500, 2000).onChange(setup);
   general.add(opts, 'tile_size', 2, 20).onChange(setup);
   
   general.add(opts, 'outline_width', 1, 5).onChange(setup);
@@ -104,7 +106,8 @@ window.onload = function() {
   gui.add(opts, "randomize").name("Randomize");
   gui.add(opts, "save").name("Save");
 };
-  let json = {};
+
+  
 
 function resetAmount() {
   amount.darkWater = 0;
@@ -117,16 +120,25 @@ function resetAmount() {
   amount.oil = 0;
   amount.cave = 0;
 }
+
+let metadata = {
+	name: "Olympia",
+	age: 3,
+	height: 96.5,
+	state: "giggling",
+	favoriteColor: {
+		r: 255,
+		g: 218,
+		b: 185,
+	}
+}
+
 function setupMeta() { 
-  json.name = 'Lion'; 
-  json.id = 0;
-  json.species = 'Panthera leo';
 }
 
 function randomize() {
   noiseSeed();
   setup();
-  resetAmount();
   setupMeta();
 }
 
@@ -136,6 +148,7 @@ function save() {
   randomize();
   randomize();
   save('photo.png');
+  resetAmount();
 }
 
 function nftCreate() {
@@ -144,16 +157,17 @@ function nftCreate() {
   randomize();
   for (let i = 0; i < opts.saveAmount; i++) {
      randomize();
-     save(i + '.png');
-     let name = (i + '.json');
-     saveJSON(json, name);
+     save((i + 1) + '.png');
+     let name = ((i + 1) + '.json');
+     saveJSON(metadata, name);
+     resetAmount();
   }
 }
 
 function setup()
 {
   var canvasDiv = document.getElementById('sketchdiv');
-  var width = canvasDiv.offsetWidth;
+  var width = opts.width;
   var height = opts.height;
 
 
