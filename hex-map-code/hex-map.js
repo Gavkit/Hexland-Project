@@ -246,34 +246,25 @@ function draw_hexagon(x, y, side, n, h) {
     let c;
     if (v < opts.dark_water_height * 255) {
       c = opts.dark_water;
-      amount.darkWater++;
     } else if(v < opts.light_water_height * 255) {
       c = opts.light_water;
-      amount.lightWater++;
     } else if (v < opts.sand_height * 255) {
       c = opts.sand;
-      amount.sand++;
     } else if (v < opts.grass_height * 255) {
       c = opts.grass
-      amount.grass++;
     } else if (v < opts.forest_height * 255) {
       c = opts.forest;
-      amount.forest++;
     } else if (v < opts.rocks_height * 255) {
       if(Math.random() * 100 <= opts.cave_chance) {
         c = opts.cave;
-        amount.cave++;
       } else {
         c = opts.rocks;
-        amount.rock++;
       }
     } else {
       if (Math.random() * 100 <= opts.oil_chance) {
         c = opts.oil;
-        amount.oil++;
       } else {
         c = opts.snow;
-        amount.snow++;
       }
     }
   
@@ -294,4 +285,24 @@ function draw_hexagon(x, y, side, n, h) {
     vertex(x + side * sin(7 * PI/6), y + side * cos(7 * PI/6) - h)
     vertex(x + side * sin(5 * PI/6), y + side * cos(5 * PI/6) - h)
     endShape(CLOSE)
+
+  if (c == opts.oil) {
+    amount.oil++;
+  } else if (c == opts.snow) {
+    amount.snow++;
+  } else if(c == opts.rocks) {
+    amount.rock++;
+  } else if(c == opts.cave) {
+    amount.cave++;
+  } else if (c == opts.forest) {
+    amount.forest++;
+  } else if (c == opts.grass) {
+    amount.grass++;
+  } else if (c == opts.sand) {
+    amount.sand++;
+  } else if (c == opts.light_water) {
+    amount.lightWater++;
+  } else if (c == opts.dark_water) {
+    amount.darkWater++;
+  }
 }
